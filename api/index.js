@@ -10,9 +10,6 @@ const getTwoFactor = () => {
     return totp.gen(base32.decode(process.env.BIT_SKINS_SECRET));
 }
 
-console.log(getTwoFactor())
-console.log(process.env.BIT_SKINS_SECRET)
-
 var app = express();
 
 var port = process.env.PORT || 4000;

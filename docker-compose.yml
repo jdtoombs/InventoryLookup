@@ -1,0 +1,30 @@
+version: "3.5"
+
+services:
+  ####################### Frontend #######################
+  frontend:
+    stdin_open: true
+    tty: true
+    restart: on-failure:1
+    container_name: frontend-app
+    build:
+      context: frontend
+    volumes:
+      - ./frontend/src:/usr/app/src
+      - ./frontend/public:/usr/app/public
+      - frontend-node-cache:/usr/app/node_modules
+    ports:
+      - "3000:3000"
+  ####################### API #######################    
+  api:
+    restart: on-failure:1
+    container_name: api
+    build:
+      context: api
+    env_file: 
+      - api/.env
+    ports:
+      - "4000:4000"
+volumes:
+  frontend-node-cache:
+    name: vsi-frontend-node-cache
