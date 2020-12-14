@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   Switch,
   Redirect,
   Route,
   BrowserRouter as Router,
-} from "react-router-dom";
-import { NavigationBar } from "./components/NavigationBar";
-import { UserItems } from "./components/UserItems";
-import { UserSearchBar } from "./components/UserSearchBar";
+} from 'react-router-dom';
+import { NavigationBar } from './components/NavigationBar';
+import { UserItems } from './components/UserItems';
+import { UserSearchBar } from './components/UserSearchBar';
 
 export const AppRouter: React.FC = () => {
   return (

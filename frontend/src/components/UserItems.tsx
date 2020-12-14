@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import * as service from "../api/service";
-import { useLocation } from "react-router-dom";
-import { ItemTable } from "./ItemTable";
-import { mapTableItem } from "../constants/utils";
-import { Chip, LinearProgress, makeStyles } from "@material-ui/core";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import React, { useEffect, useState } from 'react';
+import * as service from '../api/service';
+import { useLocation } from 'react-router-dom';
+import { ItemTable } from './ItemTable';
+import { mapTableItem } from '../constants/utils';
+import { Chip, LinearProgress, makeStyles } from '@material-ui/core';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 const useStyles = makeStyles({
   chip: {
-    float: "right",
+    float: 'right',
     marginBottom: 10,
-    color: "#eeeeee",
-    borderColor: "#00adb5",
+    color: '#eeeeee',
+    borderColor: '#00adb5',
   },
   moneyIcon: {
-    color: "#00adb5"
-  }
+    color: '#00adb5',
+  },
 });
 
 export const UserItems: React.FC<any> = () => {
@@ -27,7 +27,7 @@ export const UserItems: React.FC<any> = () => {
   const classes = useStyles();
 
   const location = useLocation();
-  const userId = location.pathname.split("/")[2];
+  const userId = location.pathname.split('/')[2];
 
   useEffect(() => {
     service.getCounterStrikeSteamInventory({ bitId: userId }).then((res) => {
@@ -41,7 +41,7 @@ export const UserItems: React.FC<any> = () => {
 
   // make sure items are marketable
   let marketableItems = userItems.filter(
-    (item: any) => item.marketable === 1 && item.type !== "Base Grade Graffiti"
+    (item: any) => item.marketable === 1 && item.type !== 'Base Grade Graffiti'
   );
 
   //get the market hash names to filter out larger data set
@@ -91,7 +91,7 @@ export const UserItems: React.FC<any> = () => {
               } USD`}
               variant="outlined"
               color="primary"
-              icon={<MonetizationOnIcon className={classes.moneyIcon}/>}
+              icon={<MonetizationOnIcon className={classes.moneyIcon} />}
             />
             <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
           </>

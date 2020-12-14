@@ -18,24 +18,30 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
-  }),
+  })
 );
 
 interface IPopup {
-    /** define the body/message for the popup */
-    body?: string;
-    /** define the title of the popup */
-    title?: string;
-    /** control show state from calling component */
-    show: boolean;
-    /** control close state from calling component */
-    close?: boolean;
-    /** determine the button text */
-    buttonText?: string;
+  /** define the body/message for the popup */
+  body?: string;
+  /** define the title of the popup */
+  title?: string;
+  /** control show state from calling component */
+  show: boolean;
+  /** control close state from calling component */
+  close?: boolean;
+  /** determine the button text */
+  buttonText?: string;
 }
 
 /** creating the default/generic popup to be used throughout the application */
-export const Popup: React.FC<IPopup> =({body, title, show, close, buttonText})=> {
+export const Popup: React.FC<IPopup> = ({
+  body,
+  title,
+  show,
+  close,
+  buttonText,
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -61,10 +67,12 @@ export const Popup: React.FC<IPopup> =({body, title, show, close, buttonText})=>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">{title}</h2>
             <p id="transition-modal-description">{body}</p>
-            <Button onClick={()=> setOpen(false)}>{buttonText ? buttonText : 'Ok'}</Button>
+            <Button onClick={() => setOpen(false)}>
+              {buttonText ? buttonText : 'Ok'}
+            </Button>
           </div>
         </Fade>
       </Modal>
     </div>
   );
-}
+};

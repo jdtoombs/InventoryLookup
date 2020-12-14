@@ -6,19 +6,19 @@ import {
   makeStyles,
   Toolbar,
   Typography,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import HomeIcon from "@material-ui/icons/Home";
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles({
   appBar: {
     marginBottom: 20,
-    backgroundColor: "#393e46",
+    backgroundColor: '#393e46',
   },
   hoomeIcon: {
-    marginRight: 5 
+    marginRight: 5,
   },
 });
 
@@ -37,7 +37,7 @@ export const NavigationBar: React.FC<any> = () => {
             className={classes.hoomeIcon}
             color="inherit"
             aria-label="home"
-            onClick={() => history.push("/")}
+            onClick={() => history.push('/')}
           >
             <HomeIcon />
           </IconButton>

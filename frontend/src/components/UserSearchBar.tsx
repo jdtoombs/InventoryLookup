@@ -1,6 +1,6 @@
-import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 interface IUserSearchBar {
   fieldDescription?: any;
@@ -9,22 +9,22 @@ interface IUserSearchBar {
 const useStyles = makeStyles({
   root: {
     marginBottom: 20,
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#eeeeee",
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#eeeeee',
     },
-    "& .MuiOutlinedInput-input": {
-      color: "#eeeeee",
+    '& .MuiOutlinedInput-input': {
+      color: '#eeeeee',
     },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
-      color: "#eeeeee",
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input': {
+      color: '#eeeeee',
     },
-    "& .MuiInputLabel-outlined": {
-      color: "#eeeeee",
+    '& .MuiInputLabel-outlined': {
+      color: '#eeeeee',
     },
   },
   searchButton: {
-    color: "#00adb5",
-    borderColor: "#00adb5",
+    color: '#00adb5',
+    borderColor: '#00adb5',
   },
   clearButton: {
     marginLeft: 10,
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 export const UserSearchBar: React.FC<IUserSearchBar> = ({
   fieldDescription,
 }) => {
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
 
   const classes = useStyles();
   const history = useHistory();
@@ -65,7 +65,7 @@ export const UserSearchBar: React.FC<IUserSearchBar> = ({
           </Button>
           <Button
             className={classes.clearButton}
-            onClick={() => setUserId("")}
+            onClick={() => setUserId('')}
             variant="outlined"
             color="secondary"
           >

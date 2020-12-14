@@ -1,19 +1,19 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
 
 const useStyles = makeStyles({
   root: {
-    position: "fixed",
+    position: 'fixed',
     left: 0,
     bottom: 0,
-    width: "100%",
-    backgroundColor: "#393e46",
+    width: '100%',
+    backgroundColor: '#393e46',
     zIndex: 3,
   },
   footerText: {
-    color: '#eeeeee'
-  }
+    color: '#eeeeee',
+  },
 });
 
 export const Footer: React.FC<any> = () => {

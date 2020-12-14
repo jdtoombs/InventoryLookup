@@ -9,7 +9,7 @@ export const getCounterStrikeSteamInventory = async (params: ISteamSearch) => {
 };
 
 export const getPrices = async () => {
-    const url = API.INVENTORY_PRICES();
-    const response = await axios.post<any>(url);
-    return response.data;
-}
+  const url = API.INVENTORY_PRICES();
+  const response = await axios.post<any>(url);
+  return response.data;
+};

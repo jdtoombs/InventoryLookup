@@ -10,5 +10,4 @@ export const STEAM_INVENTORY = (params: ISteamSearch) =>
   `http://localhost:4000/inventory/${params.bitId}`;
 
 // the endpoint used to get the real world value of users csgo items
-export const INVENTORY_PRICES = () =>
-  `http://localhost:4000/prices`;
+export const INVENTORY_PRICES = () => `http://localhost:4000/prices`;
