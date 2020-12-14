@@ -7,12 +7,18 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
+    backgroundColor: '#222831',
   },
+  tableCell: {
+    color: '#eeeeee'
+  },
+  tableHeader: {
+    backgroundColor: '#00adb5'
+  }
 });
 
 interface ITableProps {
@@ -27,11 +33,11 @@ export const ItemTable: React.FC<ITableProps> = ({ data }) => {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Image</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Price (USD)</TableCell>
+        <TableHead className={classes.tableHeader}>
+          <TableRow >
+            <TableCell className={classes.tableCell}>Image</TableCell>
+            <TableCell className={classes.tableCell}>Name</TableCell>
+            <TableCell className={classes.tableCell}>Price (USD)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -45,8 +51,8 @@ export const ItemTable: React.FC<ITableProps> = ({ data }) => {
                   src={row.image}
                 />
               </TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.price}</TableCell>
+              <TableCell className={classes.tableCell}>{row.name}</TableCell>
+              <TableCell className={classes.tableCell}>{row.price}</TableCell>
             </TableRow>
           ))}
         </TableBody>

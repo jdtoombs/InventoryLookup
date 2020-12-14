@@ -1,46 +1,74 @@
-import { Button, Grid, TextField } from "@material-ui/core";
+import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import styled from "styled-components";
-import { useHistory } from 'react-router-dom';
-
+import { useHistory } from "react-router-dom";
 
 interface IUserSearchBar {
   fieldDescription?: any;
 }
 
-const FormatUserBar = styled(TextField)`
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
+const useStyles = makeStyles({
+  root: {
+    marginBottom: 20,
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#eeeeee",
+    },
+    "& .MuiOutlinedInput-input": {
+      color: "#eeeeee",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
+      color: "#eeeeee",
+    },
+    "& .MuiInputLabel-outlined": {
+      color: "#eeeeee",
+    },
+  },
+  searchButton: {
+    color: "#00adb5",
+    borderColor: "#00adb5",
+  },
+  clearButton: {
+    marginLeft: 10,
+  },
+});
 
 /** component used to gather the desired steam id, and inventory items */
 export const UserSearchBar: React.FC<IUserSearchBar> = ({
   fieldDescription,
 }) => {
   const [userId, setUserId] = useState("");
-  
 
+  const classes = useStyles();
   const history = useHistory();
 
-  const handleSearch =()=> {
-    history.push(`/items/${userId}`)
-  }
+  const handleSearch = () => {
+    history.push(`/items/${userId}`);
+  };
 
   return (
     <>
       <Grid container direction="column" justify="center" alignItems="center">
-        <FormatUserBar
+        <TextField
           variant="outlined"
           type="search"
+          className={classes.root}
           label="Enter Steam 64-Bit Id"
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
         />
         <Grid container direction="row" justify="center" alignItems="center">
-          <Button onClick={()=> handleSearch()} variant="outlined" color="primary">
+          <Button
+            className={classes.searchButton}
+            onClick={() => handleSearch()}
+            variant="outlined"
+          >
             Search
           </Button>
-          <Button onClick={()=>setUserId("")} variant="outlined" color="secondary" style={{marginLeft: 10}}>
+          <Button
+            className={classes.clearButton}
+            onClick={() => setUserId("")}
+            variant="outlined"
+            color="secondary"
+          >
             Clear
           </Button>
         </Grid>

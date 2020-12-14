@@ -3,6 +3,7 @@ import {
   Button,
   Drawer,
   IconButton,
+  makeStyles,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -11,22 +12,32 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 
+const useStyles = makeStyles({
+  appBar: {
+    marginBottom: 20,
+    backgroundColor: "#393e46",
+  },
+  hoomeIcon: {
+    marginRight: 5 
+  },
+});
+
 export const NavigationBar: React.FC<any> = () => {
   const [showSidePanel, setShowSidePanel] = useState(false);
   const history = useHistory();
+  const classes = useStyles();
 
   return (
     <>
-      <AppBar style={{ marginBottom: 20 }} position="static">
+      <AppBar className={classes.appBar} position="static">
         <Toolbar>
           {/* TODO: allow user to switch between CSGO and RUST for inventory searching via clicking this button */}
           <IconButton
             edge="start"
-            className="home-button"
+            className={classes.hoomeIcon}
             color="inherit"
-            style={{marginRight: 5}}
             aria-label="home"
-            onClick={() => history.push('/')}
+            onClick={() => history.push("/")}
           >
             <HomeIcon />
           </IconButton>

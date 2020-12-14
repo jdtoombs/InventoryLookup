@@ -3,18 +3,28 @@ import * as service from "../api/service";
 import { useLocation } from "react-router-dom";
 import { ItemTable } from "./ItemTable";
 import { mapTableItem } from "../constants/utils";
-import {
-  Chip,
-  LinearProgress,
-} from "@material-ui/core";
+import { Chip, LinearProgress, makeStyles } from "@material-ui/core";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import { green } from "@material-ui/core/colors";
+
+const useStyles = makeStyles({
+  chip: {
+    float: "right",
+    marginBottom: 10,
+    color: "#eeeeee",
+    borderColor: "#00adb5",
+  },
+  moneyIcon: {
+    color: "#00adb5"
+  }
+});
 
 export const UserItems: React.FC<any> = () => {
   const [userItems, setUserItems] = useState([]);
   const [itemsWithPrice, setItemsWithPrice] = useState([]);
   const [getDuplicates, setGetDuplicates] = useState([]);
   const [inventoryValue, setInventoryValue] = useState(0);
+
+  const classes = useStyles();
 
   const location = useLocation();
   const userId = location.pathname.split("/")[2];
@@ -75,13 +85,13 @@ export const UserItems: React.FC<any> = () => {
         ) : (
           <>
             <Chip
-              style={{ float: "right", marginBottom: 10 }}
+              className={classes.chip}
               label={`This inventory's total value is $${
                 Math.round(inventoryValue * 100) / 100
               } USD`}
               variant="outlined"
               color="primary"
-              icon={<MonetizationOnIcon style={{ color: green[500] }} />}
+              icon={<MonetizationOnIcon className={classes.moneyIcon}/>}
             />
             <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
           </>
