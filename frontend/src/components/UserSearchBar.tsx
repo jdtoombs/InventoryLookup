@@ -1,5 +1,6 @@
 import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
+import * as service from '../api/service';
 import { useHistory } from 'react-router-dom';
 
 interface IUserSearchBar {
@@ -41,20 +42,29 @@ export const UserSearchBar: React.FC<IUserSearchBar> = ({
   const history = useHistory();
 
   const handleSearch = () => {
-    history.push(`/items/${userId}`);
+    if (/[a-zA-Z]/g.test(userId)) {
+      service.getUserBitId({ vanityName: userId }).then((res) => {
+        history.push(`/items/${res?.response.steamid}`);
+      });
+    } else {
+      history.push(`/items/${userId}`);
+    }
   };
 
   return (
     <>
       <Grid container direction="column" justify="center" alignItems="center">
-        <TextField
-          variant="outlined"
-          type="search"
-          className={classes.root}
-          label="Enter Steam 64-Bit Id"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
+        <Grid container direction="row" justify="center" alignItems="center">
+          <TextField
+            variant="outlined"
+            type="search"
+            className={classes.root}
+            label="Enter Steam Id"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+        </Grid>
+
         <Grid container direction="row" justify="center" alignItems="center">
           <Button
             className={classes.searchButton}

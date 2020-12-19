@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     color: '#eeeeee',
     cursor: 'pointer',
     marginTop: '1.2rem',
-    fontSize: '.8rem'
+    fontSize: '.8rem',
   },
 });
 
@@ -31,7 +31,14 @@ export const Footer: React.FC<any> = () => {
       }}
       className={classes.root}
     >
-      <p className={classes.footerText} onClick={()=>window.open('https://github.com/jdtoombs/InventoryLookup')}>github.com/jdtoombs/InventoryLookup</p>
+      <p
+        className={classes.footerText}
+        onClick={() =>
+          window.open('https://github.com/jdtoombs/InventoryLookup')
+        }
+      >
+        github.com/jdtoombs/InventoryLookup
+      </p>
     </BottomNavigation>
   );
 };

@@ -19,15 +19,14 @@ const useStyles = makeStyles({
 });
 
 export const UserItems: React.FC<any> = () => {
+  const location = useLocation();
+  const classes = useStyles();
+
   const [userItems, setUserItems] = useState([]);
   const [itemsWithPrice, setItemsWithPrice] = useState([]);
   const [getDuplicates, setGetDuplicates] = useState([]);
   const [inventoryValue, setInventoryValue] = useState(0);
-
-  const classes = useStyles();
-
-  const location = useLocation();
-  const userId = location.pathname.split('/')[2];
+  const [userId, setUserId] = useState(location.pathname.split('/')[2]);
 
   useEffect(() => {
     service.getCounterStrikeSteamInventory({ bitId: userId }).then((res) => {

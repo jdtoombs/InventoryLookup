@@ -3,8 +3,11 @@
 echo 'Enter the Bit Skins secret provided to you when you enable secure access.'
 read -p 'Bit Skins Secret: ' varBitSkinsSecret
 
-echo 'Enter the API key provided to you after enabling API access.'
-read -p 'API Key: ' varApiKey
+echo 'Enter the BitSkins API key provided to you after enabling API access.'
+read -p 'Bit Skins API Key: ' varBitSkinsApiKey
+
+echo 'Enter Steam API key received from https://steamcommunity.com/dev/apikey: '
+read -p 'Steam API Key: ' varSteamApiKey
 
 # create .env file for the api if it does not exist
 if test -f "./api/.env"; then 
@@ -13,7 +16,8 @@ else
 echo \
 "
 BIT_SKINS_SECRET=$varBitSkinsSecret
-API_KEY=$varApiKey" >> ./api/.env
+BIT_SKINS_API_KEY=$varBitSkinsApiKey
+STEAM_API_KEY=$varSteamApiKey" >> ./api/.env
 fi
 
 # create .env file for frontend

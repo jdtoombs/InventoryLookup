@@ -21,6 +21,12 @@ app.all('/inventory/:bitID', function(req, res, next) {
     next()
 });
 
+app.all('/bitId/lookup/:steamId', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
+});
+
 app.all('/prices', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -35,8 +41,16 @@ app.get('/inventory/:bitID', function(req, resp) {
     });
 });
 
+app.get('/bitId/lookup/:steamId', function(req, resp) {
+    var url = `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${process.env.STEAM_API_KEY}&vanityurl=${req.params.steamId}`;
+    request.get(url, function(error, res, body) {
+        resp.setHeader('Content-Type', 'application/json');
+        resp.send(body);
+    });
+});
+
 app.post('/prices', function(req, resp) {
-    var url = `https://bitskins.com/api/v1/get_all_item_prices/?api_key=${process.env.API_KEY}&code=${getTwoFactor()}&app_id=730`;
+    var url = `https://bitskins.com/api/v1/get_all_item_prices/?api_key=${process.env.BIT_SKINS_API_KEY}&code=${getTwoFactor()}&app_id=730`;
     request.get(url, function(error, res, body) {
         resp.setHeader('Content-Type', 'application/json');
         resp.send(body);
