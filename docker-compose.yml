@@ -6,19 +6,20 @@ services:
     stdin_open: true
     tty: true
     restart: on-failure:1
-    container_name: frontend-app
+    container_name: inventory-lookup-frontend
     build:
       context: frontend
     volumes:
       - ./frontend/src:/usr/app/src
       - ./frontend/public:/usr/app/public
       - frontend-node-cache:/usr/app/node_modules
+    env_file: ./frontend/.env
     ports:
       - "3000:3000"
   ####################### API #######################    
   api:
     restart: on-failure:1
-    container_name: api
+    container_name: inventory-lookup-api
     build:
       context: api
     env_file: 
@@ -27,4 +28,4 @@ services:
       - "4000:4000"
 volumes:
   frontend-node-cache:
-    name: vsi-frontend-node-cache
+    name: il-frontend-node-cache

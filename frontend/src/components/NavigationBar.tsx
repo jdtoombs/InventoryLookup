@@ -1,27 +1,36 @@
 import {
   AppBar,
+  Avatar,
   Button,
+  createStyles,
   Drawer,
   IconButton,
   makeStyles,
+  Theme,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
+import csgo from '../static/images/csgo.jpg'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   appBar: {
     marginBottom: 20,
     backgroundColor: '#393e46',
   },
-  hoomeIcon: {
+  homeIcon: {
     marginRight: 5,
   },
-});
+  game: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+    color: '#00adb5'
+  }
+}));
 
+/** Navigation bar to be used on every screen of the application */
 export const NavigationBar: React.FC<any> = () => {
   const [showSidePanel, setShowSidePanel] = useState(false);
   const history = useHistory();
@@ -34,7 +43,7 @@ export const NavigationBar: React.FC<any> = () => {
           {/* TODO: allow user to switch between CSGO and RUST for inventory searching via clicking this button */}
           <IconButton
             edge="start"
-            className={classes.hoomeIcon}
+            className={classes.homeIcon}
             color="inherit"
             aria-label="home"
             onClick={() => history.push('/')}
@@ -48,7 +57,8 @@ export const NavigationBar: React.FC<any> = () => {
             aria-label="menu"
             onClick={() => setShowSidePanel(!showSidePanel)}
           >
-            <MenuIcon />
+            {/* TODO: Replace with actual icon */}
+            <Avatar className={classes.game} alt='game' src={csgo}/>
           </IconButton>
           <Typography variant="h6" className="navbar-title">
             Inventory Lookup
