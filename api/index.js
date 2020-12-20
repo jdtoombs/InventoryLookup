@@ -15,19 +15,8 @@ var app = express();
 var port = process.env.PORT || 4000;
 app.listen(port);
 
-app.all('/inventory/:bitID', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next()
-});
-
-app.all('/bitId/lookup/:steamId', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next()
-});
-
-app.all('/prices', function(req, res, next) {
+// a middleware with no mount path; gets executed for every request to the app
+app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next()
@@ -35,6 +24,14 @@ app.all('/prices', function(req, res, next) {
 
 app.get('/inventory/:bitID', function(req, resp) {
     var url = `http://steamcommunity.com/inventory/${req.params.bitID}/730/2?l=english&cou`;
+    request.get(url, function(error, res, body) {
+        resp.setHeader('Content-Type', 'application/json');
+        resp.send(body);
+    });
+});
+
+app.get('/profile/:bitId', function(req, resp) {
+    var url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${process.env.STEAM_API_KEY}&steamids=${req.params.bitId}`;
     request.get(url, function(error, res, body) {
         resp.setHeader('Content-Type', 'application/json');
         resp.send(body);

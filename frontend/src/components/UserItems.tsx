@@ -3,40 +3,38 @@ import * as service from '../api/service';
 import { useLocation } from 'react-router-dom';
 import { ItemTable } from './ItemTable';
 import { mapTableItem } from '../constants/utils';
-import { Chip, LinearProgress, makeStyles } from '@material-ui/core';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-
-const useStyles = makeStyles({
-  chip: {
-    float: 'right',
-    marginBottom: 10,
-    color: '#eeeeee',
-    borderColor: '#00adb5',
-  },
-  moneyIcon: {
-    color: '#00adb5',
-  },
-});
+import {
+  Grid,
+  LinearProgress,
+} from '@material-ui/core';
+import { ProfileDataDisplay } from './ProfileDataDisplay';
 
 export const UserItems: React.FC<any> = () => {
   const location = useLocation();
-  const classes = useStyles();
 
   const [userItems, setUserItems] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [itemsWithPrice, setItemsWithPrice] = useState([]);
   const [getDuplicates, setGetDuplicates] = useState([]);
   const [inventoryValue, setInventoryValue] = useState(0);
-  const [userId, setUserId] = useState(location.pathname.split('/')[2]);
+  const [userId] = useState(location.pathname.split('/')[2]);
+  const [profileData, setProfileData] = useState<any>();
 
   useEffect(() => {
-    service.getCounterStrikeSteamInventory({ bitId: userId }).then((res) => {
-      setUserItems(res?.descriptions);
-      setGetDuplicates(res?.assets);
-    });
-    service.getPrices().then((res) => {
-      setItemsWithPrice(res?.prices);
-    });
-  }, [userId]);
+    if(!loaded){
+      service.getCounterStrikeSteamInventory({ bitId: userId }).then((res) => {
+        setUserItems(res?.descriptions);
+        setGetDuplicates(res?.assets);
+      });
+      service.getPrices().then((res) => {
+        setItemsWithPrice(res?.prices);
+      });
+      service.getSteamProfile({ bitId: userId }).then((res) => {
+        setProfileData(res?.response.players[0]);
+      });
+    }
+    setLoaded(true)
+  }, [userId, loaded]);
 
   // make sure items are marketable
   let marketableItems = userItems.filter(
@@ -83,16 +81,15 @@ export const UserItems: React.FC<any> = () => {
           <LinearProgress />
         ) : (
           <>
-            <Chip
-              className={classes.chip}
-              label={`This inventory's total value is $${
-                Math.round(inventoryValue * 100) / 100
-              } USD`}
-              variant="outlined"
-              color="primary"
-              icon={<MonetizationOnIcon className={classes.moneyIcon} />}
-            />
-            <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <ProfileDataDisplay inventoryWorth={totalPrice} userName={profileData.personaname} avatarSrc={profileData.avatar}/>
+              <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
+            </Grid>
           </>
         )}
       </>

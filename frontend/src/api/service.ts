@@ -22,3 +22,10 @@ export const getUserBitId = async (params: IBitSearch) => {
   const response = await axios.get<any>(url);
   return response.data;
 };
+
+/** service call to gather usesr's steam profile data */
+export const getSteamProfile = async (params: ISteamSearch) => {
+  const url = API.STEAM_PROFILE_DATA(params);
+  const response = await axios.get<any>(url);
+  return response.data;
+};
