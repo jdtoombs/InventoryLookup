@@ -11,6 +11,7 @@ interface IItemDisplay {
   item: any;
   itemOnClick?: () => void;
   toolTip?: string;
+  preText: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,15 +38,16 @@ export const ItemDisplay: React.FC<IItemDisplay> = ({
   item,
   itemOnClick,
   toolTip,
+  preText,
 }) => {
   const classes = useStyles();
 
   return (
     <>
-      <Tooltip arrow title={toolTip ?? ''}>
+      <Tooltip arrow title={toolTip ?? item.name}>
         <div className={classes.itemDisplay} onClick={itemOnClick}>
           <Avatar className={classes.image} src={item.image} />
-          <p className={classes.text}>{`${item.name} - $${item.price} USD`}</p>
+          <p className={classes.text}>{`${preText} $${item.price} USD`}</p>
         </div>
       </Tooltip>
     </>

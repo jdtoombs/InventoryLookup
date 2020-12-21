@@ -22,13 +22,15 @@ export const UserItems: React.FC<any> = () => {
   const [userId] = useState(location.pathname.split('/')[2]);
   const [profileData, setProfileData] = useState<any>();
   const [mostValuableItem, setmostValuableItem] = useState<any>({ price: 0 });
+  const [cheapestItem, setCheapestItem] = useState<any>({ price: undefined });
 
   useEffect(() => {
     if (!loaded) {
       service
         .getCounterStrikeSteamInventory({ bitId: userId })
         .then((res) => {
-          if (res === null) {
+          /** res.descriptions will be undefined on a private inventory - still returns 200 */
+          if (res === null || !res.descriptions) {
             /** null response normally indicates typo  */
             setError(true);
           } else {
@@ -70,8 +72,14 @@ export const UserItems: React.FC<any> = () => {
     if (foundItem !== undefined) {
       foundItem.price = item.price;
       foundItem.image = item.icon_url;
+      if (!cheapestItem.price) {
+        setCheapestItem(foundItem);
+      }
       if (Number(item.price) > Number(mostValuableItem.price)) {
         setmostValuableItem(foundItem);
+      }
+      if (Number(item.price) < Number(cheapestItem.price)) {
+        setCheapestItem(foundItem);
       }
     }
   });
@@ -109,7 +117,7 @@ export const UserItems: React.FC<any> = () => {
           </>
         ) : (
           <>
-            <Grid container direction="row" justify="space-evenly">
+            <Grid container direction="row" justify="center">
               <Grid item>
                 <ProfileDataDisplay
                   inventoryWorth={totalPrice}
@@ -119,11 +127,16 @@ export const UserItems: React.FC<any> = () => {
               </Grid>
               <Grid item>
                 <ItemDisplay
-                  toolTip="Most valuable item"
                   item={mostValuableItem}
+                  preText="Most valuable item: "
                 />
               </Grid>
-              <Grid item>{/* user search bar here */}</Grid>
+              <Grid item>
+                <ItemDisplay
+                  item={cheapestItem}
+                  preText="Least valuable item: "
+                />
+              </Grid>
             </Grid>
             <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
           </>
