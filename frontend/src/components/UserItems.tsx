@@ -1,31 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import * as service from '../api/service';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { ItemTable } from './ItemTable';
 import { mapTableItem } from '../constants/utils';
-import {
-  Grid,
-  LinearProgress,
-} from '@material-ui/core';
+import { Grid, LinearProgress } from '@material-ui/core';
 import { ProfileDataDisplay } from './ProfileDataDisplay';
+import { Popup } from './Popup';
+import { getItemsError } from '../constants/strings';
 
 export const UserItems: React.FC<any> = () => {
   const location = useLocation();
+  const history = useHistory();
 
   const [userItems, setUserItems] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [itemsWithPrice, setItemsWithPrice] = useState([]);
   const [getDuplicates, setGetDuplicates] = useState([]);
+  const [error, setError] = useState(false);
   const [inventoryValue, setInventoryValue] = useState(0);
   const [userId] = useState(location.pathname.split('/')[2]);
   const [profileData, setProfileData] = useState<any>();
 
   useEffect(() => {
-    if(!loaded){
-      service.getCounterStrikeSteamInventory({ bitId: userId }).then((res) => {
-        setUserItems(res?.descriptions);
-        setGetDuplicates(res?.assets);
-      });
+    if (!loaded) {
+      service
+        .getCounterStrikeSteamInventory({ bitId: userId })
+        .then((res) => {
+          if (res === null) {
+            /** null response normally indicates typo  */
+            setError(true);
+          } else {
+            setUserItems(res?.descriptions);
+            setGetDuplicates(res?.assets);
+          }
+        })
+        .catch((err: any) => {
+          if (err.response) {
+            setError(true);
+          }
+        });
       service.getPrices().then((res) => {
         setItemsWithPrice(res?.prices);
       });
@@ -33,7 +46,7 @@ export const UserItems: React.FC<any> = () => {
         setProfileData(res?.response.players[0]);
       });
     }
-    setLoaded(true)
+    setLoaded(true);
   }, [userId, loaded]);
 
   // make sure items are marketable
@@ -77,8 +90,18 @@ export const UserItems: React.FC<any> = () => {
   const render = () => {
     return (
       <>
+        <Popup
+          show={error}
+          error
+          title="An error has occured"
+          body={getItemsError}
+          setShow={setError}
+          okAction={() => history.push('/')}
+        />
         {inventoryValue === 0 ? (
-          <LinearProgress />
+          <>
+            <LinearProgress />
+          </>
         ) : (
           <>
             <Grid
@@ -87,7 +110,11 @@ export const UserItems: React.FC<any> = () => {
               justify="center"
               alignItems="center"
             >
-              <ProfileDataDisplay inventoryWorth={totalPrice} userName={profileData.personaname} avatarSrc={profileData.avatar}/>
+              <ProfileDataDisplay
+                inventoryWorth={totalPrice}
+                userName={profileData.personaname}
+                avatarSrc={profileData.avatar}
+              />
               <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
             </Grid>
           </>

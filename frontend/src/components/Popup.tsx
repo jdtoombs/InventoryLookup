@@ -3,7 +3,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,10 +14,18 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
     },
     paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
+      backgroundColor: '#393e46',
+      color: '#eeeeee',
+      border: '2px solid',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+    },
+    button: {
+      color: '#eeeeee',
+      border: '2px solid #eeeeee',
+    },
+    errorIcon: {
+      color: '#f50057',
     },
   })
 );
@@ -32,6 +41,12 @@ interface IPopup {
   close?: boolean;
   /** determine the button text */
   buttonText?: string;
+  /** handle show from parent */
+  setShow: (val: boolean) => void;
+  /** the action to perform when the user clicks ok on popup */
+  okAction: () => void;
+  /** indicate whether the popup is being used as an error */
+  error?: boolean;
 }
 
 /** creating the default/generic popup to be used throughout the application */
@@ -41,12 +56,19 @@ export const Popup: React.FC<IPopup> = ({
   show,
   close,
   buttonText,
+  okAction,
+  setShow,
+  error,
 }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    setShow(false);
+  };
+
+  const handleOk = () => {
+    okAction();
+    setShow(false);
   };
 
   return (
@@ -63,11 +85,19 @@ export const Popup: React.FC<IPopup> = ({
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={show}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">{title}</h2>
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              {error && <ErrorOutlineIcon className={classes.errorIcon} />}
+              <h2 id="transition-modal-title">{title}</h2>
+            </Grid>
             <p id="transition-modal-description">{body}</p>
-            <Button onClick={() => setOpen(false)}>
+            <Button className={classes.button} onClick={() => handleOk()}>
               {buttonText ? buttonText : 'Ok'}
             </Button>
           </div>

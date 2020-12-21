@@ -1,4 +1,10 @@
-import { Avatar, createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
+import {
+  Avatar,
+  createStyles,
+  Grid,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 import React from 'react';
 
 /** TODO: Play with sizing so it doesn't look out of place  */
