@@ -25,9 +25,7 @@ if test -f "./frontend/.env"; then
     echo 'Frontend .env has already been created'
 else
 echo \
-"
-CHOKIDAR_USEPOLLING=true
-"
+"CHOKIDAR_USEPOLLING=true" >> ./frontend/.env
 fi
 
 echo 'If the API fails to fetch user inventory double check the secret and key matches those provided.'
