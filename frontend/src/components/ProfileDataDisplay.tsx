@@ -1,10 +1,4 @@
-import {
-  Avatar,
-  createStyles,
-  Grid,
-  makeStyles,
-  Theme,
-} from '@material-ui/core';
+import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import React from 'react';
 
 /** TODO: Play with sizing so it doesn't look out of place  */
@@ -58,14 +52,12 @@ export const ProfileDataDisplay: React.FC<IProfileData> = ({
 
   return (
     <>
-      <Grid container direction="row" justify="center" alignItems="center">
-        <div className={classes.dataDisplay}>
-          <Avatar className={classes.avatar} src={avatarSrc} />
-          <p className={classes.text}>{`${makePossessive(
-            userName
-          )} inventory is worth $${formattedInventoryWorth} USD`}</p>
-        </div>
-      </Grid>
+      <div className={classes.dataDisplay}>
+        <Avatar className={classes.avatar} src={avatarSrc} />
+        <p className={classes.text}>{`${makePossessive(
+          userName
+        )} inventory is worth $${formattedInventoryWorth} USD`}</p>
+      </div>
     </>
   );
 };

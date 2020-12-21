@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       marginBottom: 20,
       backgroundColor: '#393e46',
+      position: 'sticky',
+      top: 0,
+      overflow: 'hidden',
     },
     homeIcon: {
       marginRight: 5,

@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     width: '100%',
     backgroundColor: '#393e46',
     zIndex: 3,
+    overflow: 'hidden',
   },
   footerText: {
     color: '#eeeeee',

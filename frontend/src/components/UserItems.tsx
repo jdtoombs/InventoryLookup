@@ -7,6 +7,7 @@ import { Grid, LinearProgress } from '@material-ui/core';
 import { ProfileDataDisplay } from './ProfileDataDisplay';
 import { Popup } from './Popup';
 import { getItemsError } from '../constants/strings';
+import { ItemDisplay } from './ItemDisplay';
 
 export const UserItems: React.FC<any> = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ export const UserItems: React.FC<any> = () => {
   const [inventoryValue, setInventoryValue] = useState(0);
   const [userId] = useState(location.pathname.split('/')[2]);
   const [profileData, setProfileData] = useState<any>();
+  const [mostValuableItem, setmostValuableItem] = useState<any>({ price: 0 });
 
   useEffect(() => {
     if (!loaded) {
@@ -68,6 +70,9 @@ export const UserItems: React.FC<any> = () => {
     if (foundItem !== undefined) {
       foundItem.price = item.price;
       foundItem.image = item.icon_url;
+      if (Number(item.price) > Number(mostValuableItem.price)) {
+        setmostValuableItem(foundItem);
+      }
     }
   });
 
@@ -104,19 +109,23 @@ export const UserItems: React.FC<any> = () => {
           </>
         ) : (
           <>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <ProfileDataDisplay
-                inventoryWorth={totalPrice}
-                userName={profileData.personaname}
-                avatarSrc={profileData.avatar}
-              />
-              <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
+            <Grid container direction="row" justify="space-evenly">
+              <Grid item>
+                <ProfileDataDisplay
+                  inventoryWorth={totalPrice}
+                  userName={profileData.personaname}
+                  avatarSrc={profileData.avatar}
+                />
+              </Grid>
+              <Grid item>
+                <ItemDisplay
+                  toolTip="Most valuable item"
+                  item={mostValuableItem}
+                />
+              </Grid>
+              <Grid item>{/* user search bar here */}</Grid>
             </Grid>
+            <ItemTable data={filteredItems.map((i) => mapTableItem(i))} />
           </>
         )}
       </>
