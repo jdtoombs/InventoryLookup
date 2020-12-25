@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const request = require('request');
 
+var rateLimiter = require('./middleware/rateLimiter')
 var totp = require('notp').totp;
 var base32 = require('thirty-two');
 
@@ -15,6 +16,8 @@ var app = express();
 var port = process.env.PORT || 4000;
 app.listen(port);
 
+/** middleware to limit the user api requests on a 24 hour basis */
+app.use(rateLimiter)
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

@@ -80,7 +80,7 @@ export const ItemTable: React.FC<ITableProps> = ({ data }) => {
                 />
               </TableCell>
               <TableCell className={classes.tableCell}>{row.name}</TableCell>
-              <TableCell className={classes.tableCell}>{row.price}</TableCell>
+              <TableCell className={classes.tableCell}>{`$${row.price}`}</TableCell>
             </TableRow>
           ))}
           <TablePagination
